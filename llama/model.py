@@ -131,11 +131,15 @@ class Attention(nn.Module):
             scores = scores + mask  # (bs, n_local_heads, slen, cache_len + slen)
         scores = F.softmax(scores.float(), dim=-1).type_as(xq)
         output = torch.matmul(scores, values)  # (bs, n_local_heads, slen, head_dim)
+        print("attention dimension 1:", output.size())
         output = output.transpose(
             1, 2
         ).contiguous().view(bsz, seqlen, -1)
+        print("attention dimension 2:", output.size())
 
-        return self.wo(output)
+        result = self.wo(output)
+        print("attention dimension 3:", result.size())
+        return result
 
 
 class FeedForward(nn.Module):
@@ -212,8 +216,11 @@ class Transformer(nn.Module):
     def forward(self, tokens: torch.Tensor, start_pos: int):
         _bsz, seqlen = tokens.shape
         h = self.tok_embeddings(tokens)
+        print("transformer dimension 1:", h.size())
         self.freqs_cis = self.freqs_cis.to(h.device)
+        print("transformer dimension 2:", self.freqs_cis.size())
         freqs_cis = self.freqs_cis[start_pos: start_pos + seqlen]
+        print("transformer dimension 3:", freqs_cis.size())
 
         mask = None
         if seqlen > 1:
@@ -223,5 +230,7 @@ class Transformer(nn.Module):
         for layer in self.layers:
             h = layer(h, start_pos, freqs_cis, mask)
         h = self.norm(h)
+        print("transformer dimension 4:", h.size())
         output = self.output(h[:, -1, :])  # only compute last logits
+        print("transformer dimension 5:", output.size())
         return output.float()
