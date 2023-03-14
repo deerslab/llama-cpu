@@ -30,6 +30,9 @@ NUM_SHARDS = {
     "65B": 8,
 }
 
+def merge_dicts(x,y):
+    return {**x, **y}
+
 
 def read_json(path):
     with open(path, "r") as f:
@@ -60,7 +63,7 @@ def write_model(input_base_path, model_size):
 
     for layer_i in range(n_layers):
         if model_size == "7B":
-            state_dict |= {
+            state_dict = merge_dicts(state_dict, {
                 f"layers.{layer_i}.attention.wq.weight": loaded[
                     f"layers.{layer_i}.attention.wq.weight"
                 ],
@@ -86,14 +89,14 @@ def write_model(input_base_path, model_size):
                     f"layers.{layer_i}.attention_norm.weight"
                 ],
                 f"layers.{layer_i}.ffn_norm.weight": loaded[f"layers.{layer_i}.ffn_norm.weight"],
-            }
+            })
         else:
-            state_dict |= {
+            state_dict = merge_dicts(state_dict, {
                 f"layers.{layer_i}.attention_norm.weight": loaded[0][
                     f"layers.{layer_i}.attention_norm.weight"
                 ],
                 f"layers.{layer_i}.ffn_norm.weight": loaded[0][f"layers.{layer_i}.ffn_norm.weight"],
-            }
+            })
             state_dict[f"layers.{layer_i}.attention.wq.weight"] = torch.cat(
                 [
                     loaded[i][f"layers.{layer_i}.attention.wq.weight"].view(n_heads_per_shard, dims_per_head, dim)
@@ -129,19 +132,19 @@ def write_model(input_base_path, model_size):
             )
 
     if model_size == "7B":
-        state_dict |= {
+        state_dict = merge_dicts(state_dict, {
             "tok_embeddings.weight": loaded["tok_embeddings.weight"],
             "norm.weight": loaded["norm.weight"],
             "output.weight": loaded["output.weight"],
-        }
+        })
     else:
-        state_dict |= {
+        state_dict = merge_dicts(state_dict, {
             "norm.weight": loaded[0]["norm.weight"],
             "tok_embeddings.weight": torch.cat(
                 [loaded[i]["tok_embeddings.weight"] for i in range(num_shards)], dim=1
             ),
             "output.weight": torch.cat([loaded[i]["output.weight"] for i in range(num_shards)], dim=0),
-        }
+        })
 
     torch.save(state_dict, 'merged.pth')
 
