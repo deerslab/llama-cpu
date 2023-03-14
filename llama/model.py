@@ -126,10 +126,18 @@ class Attention(nn.Module):
         xq = xq.transpose(1, 2)
         keys = keys.transpose(1, 2)
         values = values.transpose(1, 2)
+
+        print('attention xq', xq.size())
+        print('attention keys', keys.size())
+        print('attention values', values.size())
+
         scores = torch.matmul(xq, keys.transpose(2, 3)) / math.sqrt(self.head_dim)
+
+        print('attention scores 1', scores.size())
         if mask is not None:
             scores = scores + mask  # (bs, n_local_heads, slen, cache_len + slen)
         scores = F.softmax(scores.float(), dim=-1).type_as(xq)
+        print('attention scores 2', scores.size())
         output = torch.matmul(scores, values)  # (bs, n_local_heads, slen, head_dim)
         print("attention dimension 1:", output.size())
         output = output.transpose(

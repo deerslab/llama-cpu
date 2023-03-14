@@ -53,6 +53,7 @@ class LLaMA:
         for cur_pos in range(start_pos, total_len):
             print('cur_pos processing:', cur_pos)
             logits = self.model.forward(tokens[:, prev_pos:cur_pos], prev_pos)
+            print('logits', logits.size())
             if temperature > 0:
                 probs = torch.softmax(logits / temperature, dim=-1)
                 next_token = sample_top_p(probs, top_p)
