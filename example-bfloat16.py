@@ -59,9 +59,11 @@ def main(
     generator = load(ckpt_dir, tokenizer_path, max_seq_len, max_batch_size)
 
     prompts = [
+        "McDonald's is a famous fast food chain.",
         'Anna loves fast food.',
         'she likes hamburgers!',
-        'Where is Mona Lisa located?'
+        'Where is Mona Lisa located?',
+        'the famous davinci painting is in paris'
     ]
 
     results = generator.generate(
