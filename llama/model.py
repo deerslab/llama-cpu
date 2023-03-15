@@ -245,7 +245,7 @@ class Transformer(nn.Module):
         h = self.norm(h)
         print("transformer dimension 4:", h.size())
 
-        with open('embeddings.pkl', 'wb') as f:
+        with open(f'emb{start_pos}.pkl', 'wb') as f:
             pickle.dump(h[:, -1, :].numpy(), f)
 
         output = self.output(h[:, -1, :])  # only compute last logits
