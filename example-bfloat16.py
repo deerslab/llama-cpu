@@ -59,7 +59,9 @@ def main(
     generator = load(ckpt_dir, tokenizer_path, max_seq_len, max_batch_size)
 
     prompts = [
-        'how to get embedding from llama model?',
+        'Anna loves fast food.',
+        'she likes hamburgers!',
+        'Where is Mona Lisa located?'
     ]
 
     results = generator.generate(

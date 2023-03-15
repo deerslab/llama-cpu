@@ -67,6 +67,8 @@ class LLaMA:
             tokens[:, cur_pos] = next_token
             prev_pos = cur_pos
 
+            break
+
             pbar.update(1)
 
         pbar.close()

@@ -9,6 +9,8 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 
+import pickle
+
 import pdb
 
 @dataclass
@@ -242,6 +244,10 @@ class Transformer(nn.Module):
             h = layer(h, start_pos, freqs_cis, mask)
         h = self.norm(h)
         print("transformer dimension 4:", h.size())
+
+        with open('embeddings.pkl', 'wb') as f:
+            pickle.dump(h[:, -1, :].numpy(), f)
+
         output = self.output(h[:, -1, :])  # only compute last logits
         print("transformer dimension 5:", output.size())
         return output.float()
