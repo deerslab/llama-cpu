@@ -250,4 +250,7 @@ class Transformer(nn.Module):
 
         output = self.output(h[:, -1, :])  # only compute last logits
         print("transformer dimension 5:", output.size())
+        with open(f'yet_another_emb{start_pos}.pkl', 'wb') as f:
+            pickle.dump(output.float().numpy(), f)
+
         return output.float()
