@@ -6,7 +6,7 @@ clf = pipeline(
     model = 'deerslab/llama-7b-embeddings')#'shalomma/llama-7b-embeddings')
 
 text = ['Anna loves fast food.',
-        'Анна любит фаст-фуд.'
+        'Анна любит фаст-фуд.',
         'Anna ama la comida rápida.',
         'Where is Mona Lisa located?',
         'Где находится Мона Лиза?',
