@@ -7,6 +7,6 @@ clf = pipeline(
 text = ["McDonald's is a famous fast food chain.",
         'Anna loves fast food.',]
 
-clf(text)
+result = clf(text)
 
-print(clf)
+print(result)
