@@ -1,6 +1,7 @@
 import torch
 import transformers
 from transformers import LlamaForCausalLM, LlamaTokenizer
+import pdb
 
 import pickle
 
@@ -26,6 +27,7 @@ def feed_sentence(sentences):
     attention_mask = tokenizer_result.attention_mask
 
     model_result = model(input_ids, attention_mask=attention_mask, return_dict=True)
+    pdb.set_trace()
 
     token_embeddings = model_result.last_hidden_state
 
