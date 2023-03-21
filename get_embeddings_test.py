@@ -16,7 +16,7 @@ sentences = ['Anna loves fast food.',
         'Where is Mona Lisa located?',
         'Где находится Мона Лиза?',
         '¿Dónde se encuentra la Mona Lisa?']
-tokenizer_result = tokenizer(sentences, max_length=32, padding=True, return_attention_mask=True, return_tensors='pt')
+tokenizer_result = tokenizer(sentences, return_attention_mask=True, return_tensors='pt')
 
 input_ids = tokenizer_result.input_ids
 attention_mask = tokenizer_result.attention_mask
