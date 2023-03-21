@@ -4,15 +4,18 @@ from transformers import AutoTokenizer, AutoModel
 
 import pickle
 
-transformer_name = 'llama'
+transformer_name = 'decapoda-research/llama-7b-hf'
 
-tokenizer = AutoTokenizer.from_pretrained(transformer_name, use_fast=True)
+tokenizer = LlamaTokenizer.from_pretrained(transformer_name, use_fast=True)
 
-model = AutoModel.from_pretrained(transformer_name)
+model = LlamaForCausalLM.from_pretrained(transformer_name)
 
-sentences = ['Deep learning is difficult yet very rewarding.',
-             'Deep learning is not easy.',
-             'But is rewarding if done right.']
+sentences = ['Anna loves fast food.',
+        'Анна любит фаст-фуд.',
+        'Anna ama la comida rápida.',
+        'Where is Mona Lisa located?',
+        'Где находится Мона Лиза?',
+        '¿Dónde se encuentra la Mona Lisa?']
 tokenizer_result = tokenizer(sentences, max_length=32, padding=True, return_attention_mask=True, return_tensors='pt')
 
 input_ids = tokenizer_result.input_ids
