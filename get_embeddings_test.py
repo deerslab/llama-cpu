@@ -1,6 +1,6 @@
 import torch
 import transformers
-from transformers import AutoTokenizer, AutoModel
+from transformers import LlamaForCausalLM, LlamaTokenizer
 
 import pickle
 
