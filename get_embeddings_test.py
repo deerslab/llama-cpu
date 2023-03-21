@@ -4,7 +4,7 @@ from transformers import AutoTokenizer, AutoModel
 
 import pickle
 
-transformer_name = 'decapoda-research/llama-7b-hf'
+transformer_name = 'llama'
 
 tokenizer = AutoTokenizer.from_pretrained(transformer_name, use_fast=True)
 
