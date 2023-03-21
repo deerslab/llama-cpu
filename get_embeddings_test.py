@@ -14,12 +14,11 @@ def get_model():
 
 model, tokenizer = get_model()
 
-sentences = ['Anna loves fast food.',
-        'Анна любит фаст-фуд.',
-        'Anna ama la comida rápida.',
-        'Where is Mona Lisa located?',
-        'Где находится Мона Лиза?',
-        '¿Dónde se encuentra la Mona Lisa?']
+sentences = ["McDonald's is a famous fast food chain.",
+'Anna loves fast food.',
+'she likes hamburgers!',
+'Where is Mona Lisa located?',
+'the famous davinci painting is in paris']
 
 def feed_sentence(sentences):
     tokenizer_result = tokenizer(sentences, return_attention_mask=True, return_tensors='pt', padding=True)
@@ -27,7 +26,7 @@ def feed_sentence(sentences):
     attention_mask = tokenizer_result.attention_mask
 
     model_result = model(input_ids, attention_mask=attention_mask, return_dict=True, output_hidden_states=True)
-    pdb.set_trace()
+    #pdb.set_trace()
 
     token_embeddings = model_result.hidden_states[-1]
 
