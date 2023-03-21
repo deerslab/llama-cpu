@@ -26,10 +26,10 @@ def feed_sentence(sentences):
     input_ids = tokenizer_result.input_ids
     attention_mask = tokenizer_result.attention_mask
 
-    model_result = model(input_ids, attention_mask=attention_mask, return_dict=True)
+    model_result = model(input_ids, attention_mask=attention_mask, return_dict=True, output_hidden_states=True)
     pdb.set_trace()
 
-    token_embeddings = model_result.last_hidden_state
+    token_embeddings = model_result.hidden_states[-1]
 
     pooled = torch.max((token_embeddings * attention_mask.unsqueeze(-1)), axis=1)
     mean_pooled = token_embeddings.sum(axis=1) / attention_mask.sum(axis=-1).unsqueeze(-1)
