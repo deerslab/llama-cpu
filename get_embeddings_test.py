@@ -6,7 +6,7 @@ import pickle
 
 transformer_name = 'decapoda-research/llama-7b-hf'
 
-tokenizer = LlamaTokenizer.from_pretrained(transformer_name, use_fast=True, pad_token=0)
+tokenizer = LlamaTokenizer.from_pretrained(transformer_name, use_fast=True, pad_token='<pad>')
 
 model = LlamaForCausalLM.from_pretrained(transformer_name)
 
