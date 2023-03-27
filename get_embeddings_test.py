@@ -34,7 +34,7 @@ def feed_sentence(sentences):
     pooled = torch.max((token_embeddings * attention_mask.unsqueeze(-1)), axis=1)
     mean_pooled = token_embeddings.sum(axis=1) / attention_mask.sum(axis=-1).unsqueeze(-1)
 
-    return pooled,mean_pooled
+    return pooled, mean_pooled
 
 pooled, mean_pooled = [], []
 for s in sentences:

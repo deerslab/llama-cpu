@@ -5,12 +5,12 @@ clf = pipeline(
     task = 'feature-extraction',
     model = 'deerslab/llama-7b-embeddings')#'shalomma/llama-7b-embeddings')
 
-text = ['Anna loves fast food.',
-        'Анна любит фаст-фуд.',
-        'Anna ama la comida rápida.',
+text = ['McDonalds is a famous fast food chain.',
+        'Anna loves fast food.',
+        'she likes hamburgers!',
+        'she hates hamburgers!',
         'Where is Mona Lisa located?',
-        'Где находится Мона Лиза?',
-        '¿Dónde se encuentra la Mona Lisa?']
+        'the famous davinci painting is in paris']
 
 result = clf(text)
 
