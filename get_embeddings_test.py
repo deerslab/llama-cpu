@@ -31,19 +31,16 @@ def feed_sentence(sentences):
 
     token_embeddings = model_result.hidden_states[-1]
 
-    pooled = torch.max((token_embeddings * attention_mask.unsqueeze(-1)), axis=1)
-    mean_pooled = token_embeddings.sum(axis=1) / attention_mask.sum(axis=-1).unsqueeze(-1)
+    input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+    sum_embeddings = torch.sum(token_embeddings * input_mask_expanded, 1)
+    sum_mask = torch.clamp(input_mask_expanded.sum(1), min=1e-9)
+    return sum_embeddings / sum_mask
 
-    return pooled, mean_pooled
 
-pooled, mean_pooled = [], []
+mean_pooled = []
 for s in sentences:
-    max_p, mean_p = feed_sentence([s])
-    pooled.append(max_p)
+    mean_p = feed_sentence([s])
     mean_pooled.append(mean_p)
-
-with open(f'emb_maxpool.pkl', 'wb') as f:
-    pickle.dump(pooled, f)
 
 with open(f'emb_meanpool.pkl', 'wb') as f:
     pickle.dump(mean_pooled, f)
